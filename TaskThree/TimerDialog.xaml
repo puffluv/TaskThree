@@ -5,19 +5,194 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskThree"
         mc:Ignorable="d"
-        Title="TimerDialog" Height="300" Width="300">
-    <Grid>
-        <Label Content="Часы:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,150,0,0"/>
-        <TextBox x:Name="hoursTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Margin="70,154,0,0"/>
-        <Label Content="Минуты:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,180,0,0"/>
-        <TextBox x:Name="minutesTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Margin="70,184,0,0"/>
-        <Label Content="Секунды:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,205,0,0"/>
-        <TextBox x:Name="secondsTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Margin="70,209,0,0"/>
-        <Label Content="Имя таймера:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
-        <TextBox x:Name="nameTextBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="10,30,0,0"/>
-        <Label Content="Дата и время:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,60,0,0"/>
-        <DatePicker x:Name="datePicker" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="10,90,0,0"/>
-        <Button Content="Добавить" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="25" Margin="10,120,0,0" Click="AddButton_Click"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Height="25" Margin="100,120,0,0" Click="CancelButton_Click"/>
+        Title="TimerDialog" Height="322" Width="300"  WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <ImageBrush   x:Key="CalendarIcon" ImageSource="ico.png"/>
+        <!--Градиенты цветов-->
+        <LinearGradientBrush x:Key="Brush3">
+            <GradientStop Color="#FFC4D0" Offset="0" />
+            <GradientStop Color="#FBE8E7" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Brush2">
+            <GradientStop Color="#930077" Offset="0" />
+            <GradientStop Color="#E61c5D" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Brush1">
+            <GradientStop Color="#D72323" Offset="0" />
+            <GradientStop Color="#F73859" Offset="1" />
+        </LinearGradientBrush>
+
+        <!--Стиль обычных кнопок-->
+        <Style x:Key="AllButtons" TargetType="Button">
+            <!--Триггеры-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Gray" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+
+            <!--Начальные заданные функции-->
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Background" Value="#323232"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White" />
+
+            <!--Шаблон-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Конец стиля обычных кнопок-->
+
+
+        <!--Стиль результативных кнопок-->
+        <Style x:Key="ResultButton" TargetType="Button">
+            <!--Триггеры-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Gray"/>
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#323232"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+
+            <!--Начальные заданные функции-->
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="Black" />
+
+            <!--Шаблон-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Конец стиля результативных кнопок-->
+
+        <!--Стиль для текстов в 1-2 Row -->
+        <Style x:Key="TextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="DatePicker" TargetType="DatePicker">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#323232"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DatePicker">
+                        <Grid>
+                            <DatePickerTextBox x:Name="PART_TextBox"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        Background="{TemplateBinding Background}"
+                                        Foreground="{TemplateBinding Foreground}"                                 
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        Padding="2">
+                            </DatePickerTextBox>
+                            <Border x:Name="PART_Watermark" Background="{StaticResource CalendarIcon}"
+                                    Width="30"
+                                    Height="30"
+                                    HorizontalAlignment="Right">
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+            <Style x:Key="TextBox" TargetType="TextBox">
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#323232" />
+            <Setter Property="BorderThickness" Value="0.5"/>
+
+        </Style>
+
+
+        <!--Стиль арифметических кнопок-->
+        <Style x:Key="ComputeButtons" TargetType="Button">
+            <!--Триггеры-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+
+            <!--Начальные заданные функции-->
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="23"/>
+            <Setter Property="Foreground" Value="Black" />
+            <!--Шаблон-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="40" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Конец стиля арифметических кнопок-->
+
+    </Window.Resources>
+    <Grid Width="300" Height="321" Background="#212121">
+        <Button Style="{StaticResource AllButtons}" Content="Добавить"   Margin="9,253,211,43" Click="AddButton_Click" />
+        <Button Style="{StaticResource ResultButton}" Content="Отмена"   Margin="115,253,105,43" Click="CancelButton_Click"/>
+        <TextBlock Style="{StaticResource TextBlock}" Text="Часы:" Margin="10,150,0,0"/>
+        <TextBox x:Name="hoursTextBox" Text="{Binding Timer.Hours, Mode=TwoWay}" Style="{StaticResource TextBox}" Width="50" Margin="90,154,0,0"/>
+        <TextBlock Style="{StaticResource TextBlock}" Text="Минуты:"  Margin="10,180,0,0"/>
+        <TextBox x:Name="minutesTextBox" Text="{Binding Timer.Minutes, Mode=TwoWay}" Style="{StaticResource TextBox}"  Margin="90,183,0,0"/>
+        <TextBlock Style="{StaticResource TextBlock}" Text="Секунды:" Margin="10,210,0,0"/>
+        <TextBox x:Name="secondsTextBox" Text="{Binding Timer.Seconds, Mode=TwoWay}" Style="{StaticResource TextBox}" Margin="90,213,0,0"/>
+        <TextBlock Style="{StaticResource TextBlock}" Text="Имя таймера:" Margin="10,16,0,0"/>
+        <TextBox x:Name="nameTextBox" Text="{Binding Timer.Name, Mode=TwoWay}" Style="{StaticResource TextBox}" Width="200" Margin="10,47,0,0"/>
+        <TextBlock Style="{StaticResource TextBlock}" Text="Дата и время:"  Margin="9,79,0,0"/>
+        <DatePicker x:Name="datePicker" Style="{StaticResource DatePicker}"  Margin="10,110,0,0"  />
     </Grid>
 </Window>

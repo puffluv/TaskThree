@@ -5,9 +5,142 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TaskThree"
         mc:Ignorable="d"
-        Title="MainWindow" Height="400" Width="600">
+        Title="Таймер" Height="400" Width="500" Background="#212121" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+
+        <!--Градиенты цветов-->
+        <LinearGradientBrush x:Key="Brush3">
+            <GradientStop Color="#FFC4D0" Offset="0" />
+            <GradientStop Color="#FBE8E7" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Brush2">
+            <GradientStop Color="#930077" Offset="0" />
+            <GradientStop Color="#E61c5D" Offset="1" />
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Brush1">
+            <GradientStop Color="#D72323" Offset="0" />
+            <GradientStop Color="#F73859" Offset="1" />
+        </LinearGradientBrush>
+
+        <!--Стиль обычных кнопок-->
+        <Style x:Key="AllButtons" TargetType="Button">
+            <!--Триггеры-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Gray" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+
+            <!--Начальные заданные функции-->
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Background" Value="#323232"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White" />
+
+            <!--Шаблон-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Конец стиля обычных кнопок-->
+
+
+        <!--Стиль результативных кнопок-->
+        <Style x:Key="ResultButton" TargetType="Button">
+            <!--Триггеры-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Gray"/>
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#323232"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+
+            <!--Начальные заданные функции-->
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="Black" />
+
+            <!--Шаблон-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Конец стиля результативных кнопок-->
+
+        <!--Стиль для текстов в 1-2 Row -->
+        <Style x:Key="TextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+
+        </Style>
+
+        <!--Стиль арифметических кнопок-->
+        <Style x:Key="ComputeButtons" TargetType="Button">
+            <!--Триггеры-->
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Trigger>
+
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+
+            <!--Начальные заданные функции-->
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="23"/>
+            <Setter Property="Foreground" Value="Black" />
+            <!--Шаблон-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="40" Background="{TemplateBinding Background}" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Конец стиля арифметических кнопок-->
+
+    </Window.Resources>
     <Grid>
-        <ListBox x:Name="timerListBox" ItemsSource="{Binding timers}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="300" Margin="10">
+        <ListBox x:Name="timerListBox" ItemsSource="{Binding timers}" Foreground="White" Background="Transparent" BorderBrush="#323232" BorderThickness="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" Height="300" Margin="10">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
@@ -16,11 +149,11 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-            </ListBox>
-
-            <Button Content="Добавить таймер" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="120" Height="30" Margin="10" Click="AddTimerButton_Click"/>
-        <Button Content="Удалить таймер" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="120" Height="30" Margin="140,0,0,10" Click="RemoveTimerButton_Click"/>
-        <Button Content="Сохранить в файл" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" Height="30" Margin="0,0,10,10" Click="SaveToFileButton_Click"/>
-        <Button Content="Загрузить из файла" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="120" Height="30" Margin="0,0,140,10" Click="LoadFromFileButton_Click"/>
+        </ListBox>
+        <Button Style="{StaticResource AllButtons}" Content="Добавить таймер" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5,0,0,10" Click="AddTimerButton_Click"/>
+        <Button Style="{StaticResource AllButtons}" Content="Удалить таймер" HorizontalAlignment="Left" VerticalAlignment="Bottom"  Margin="165,0,0,10" Click="RemoveTimerButton_Click"/>
+        <Button Style="{StaticResource ResultButton}" Content="Сохранить в файл" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,120" Click="SaveToFileButton_Click"/>
+        <Button Style="{StaticResource ResultButton}" Content="Изменить таймер" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0,0,5,64" Click="EditTimerButton_Click"/>
+        <Button Style="{StaticResource ResultButton}" Content="Загрузить из файла" HorizontalAlignment="Right" VerticalAlignment="Bottom"  Margin="0,0,5,10" Click="LoadFromFileButton_Click"/>
     </Grid>
 </Window>

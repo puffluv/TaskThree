@@ -57,10 +57,19 @@ namespace TaskThree
         }
         private void AddTimerButton_Click(object sender, RoutedEventArgs e)
         {
-            TimerDialog dialog = new TimerDialog();
+            // Создаем новый таймер для передачи в TimerDialog
+            TimerItem newTimer = new TimerItem();
+
+            // Создаем TimerDialog с новым таймером
+            TimerDialog dialog = new TimerDialog(newTimer);
+
+            // Если пользователь подтверждает диалог
             if (dialog.ShowDialog() == true)
             {
-                timers.Add(dialog.Timer);
+                // Добавляем созданный таймер в коллекцию
+                timers.Add(newTimer);
+
+                // Обновляем отображение времени
                 UpdateRemainingTime();
             }
         }
@@ -115,5 +124,24 @@ namespace TaskThree
             }
         }
 
+        private void EditTimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (timerListBox.SelectedIndex != -1)
+            {
+                TimerItem selectedTimer = timers[timerListBox.SelectedIndex];
+                TimerDialog dialog = new TimerDialog(selectedTimer);
+
+                if (dialog.ShowDialog() == true)
+                {
+                    // Обновляем данные таймера в списке
+                    selectedTimer.Name = dialog.Timer.Name;
+                    selectedTimer.Hours = dialog.Timer.Hours;
+                    selectedTimer.Minutes = dialog.Timer.Minutes;
+                    selectedTimer.Seconds = dialog.Timer.Seconds;
+
+                    UpdateRemainingTime();
+                }
+            }
+        }
     }
 }

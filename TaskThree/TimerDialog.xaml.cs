@@ -19,17 +19,40 @@ namespace TaskThree
     /// </summary>
     public partial class TimerDialog : Window
     {
-        public TimerItem Timer { get; private set; }
+        public TimerItem Timer { get; set; }
+        public TimerItem SelectedTimer { get; }
 
-        public TimerDialog()
+        public TimerDialog(TimerItem timer)
         {
             InitializeComponent();
-            Timer = new TimerItem();
+            Timer = timer;
+            DataContext = this;
+
+            // Сброс значений полей при создании нового таймера
+            ResetFields();
+
+            nameTextBox.Text = Timer.Name;
+            datePicker.SelectedDate = Timer.TargetDate; // Устанавливаем дату и время
+            hoursTextBox.Text = Timer.Hours.ToString();
+            minutesTextBox.Text = Timer.Minutes.ToString();
+            secondsTextBox.Text = Timer.Seconds.ToString();
+        }
+
+        private void ResetFields()
+        {
+            nameTextBox.Text = string.Empty;
+            datePicker.SelectedDate = DateTime.Now;
+            hoursTextBox.Text = string.Empty;
+            minutesTextBox.Text = string.Empty;
+            secondsTextBox.Text = string.Empty;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Timer.Name = nameTextBox.Text;
+            Timer.Hours = int.Parse(hoursTextBox.Text);
+            Timer.Minutes = int.Parse(minutesTextBox.Text);
+            Timer.Seconds = int.Parse(secondsTextBox.Text);
             Timer.TargetDate = datePicker.SelectedDate ?? DateTime.Now;
 
             int hours, minutes, seconds;
@@ -40,8 +63,6 @@ namespace TaskThree
                 Timer.TargetDate = Timer.TargetDate.AddHours(hours).AddMinutes(minutes).AddSeconds(seconds);
             }
 
-            Timer.NotifyPropertyChanged(nameof(Timer.TargetDate)); // Добавляем это для обновления RemainingTimeFormatted
-
             DialogResult = true;
             Close();
         }
@@ -51,5 +72,10 @@ namespace TaskThree
             DialogResult = false;
             Close();
         }
+        private void UpdateRemainingTimeFormatted()
+        {
+            Timer.UpdateRemainingTimeFormatted();
+        }
+
     }
 }

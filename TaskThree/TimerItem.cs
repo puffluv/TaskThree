@@ -9,6 +9,65 @@ namespace TaskThree
 {
     public class TimerItem : INotifyPropertyChanged
     {
+        private int hours;
+        public int Hours
+        {
+            get { return hours; }
+            set
+            {
+                if (value != hours)
+                {
+                    hours = value;
+                    NotifyPropertyChanged(nameof(Hours));
+                    UpdateRemainingTimeFormatted();
+                }
+            }
+        }
+
+        private int minutes;
+        public int Minutes
+        {
+            get { return minutes; }
+            set
+            {
+                if (value != minutes)
+                {
+                    minutes = value;
+                    NotifyPropertyChanged(nameof(Minutes));
+                    UpdateRemainingTimeFormatted();
+                }
+            }
+        }
+
+        private int seconds;
+        public int Seconds
+        {
+            get { return seconds; }
+            set
+            {
+                if (value != seconds)
+                {
+                    seconds = value;
+                    NotifyPropertyChanged(nameof(Seconds));
+                    UpdateRemainingTimeFormatted();
+                }
+            }
+        }
+        private int days;
+        public int Days
+        {
+            get { return days; }
+            set
+            {
+                if (value != days)
+                {
+                    days = value;
+                    NotifyPropertyChanged(nameof(Days));
+                    UpdateRemainingTimeFormatted();
+                }
+            }
+        }
+
         private string name;
         public string Name
         {
